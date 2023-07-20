@@ -11,12 +11,9 @@ fun Serializable.toByteArray(): ByteArray {
         objectOutputStream = ObjectOutputStream(byteArrayOutputStream)
         objectOutputStream.writeObject(this)
         objectOutputStream.flush()
-        val result = byteArrayOutputStream.toByteArray()
-        return result
+        return byteArrayOutputStream.toByteArray()
     } finally {
-        if (objectOutputStream != null) {
-            objectOutputStream.close()
-        }
+        objectOutputStream?.close()
         byteArrayOutputStream.close()
     }
 }
@@ -31,15 +28,15 @@ fun handleResponse(response: HttpResponse?): String {
         return response.reasonPhrase
     }
 
-    if (code >= 400 && code <= 499) {
+    if (code in 400..499) {
         throw IllegalStateException("Server responses with client error")
     }
 
-    if (code >= 500 && code <= 599) {
+    if (code in 500..599) {
         throw IllegalStateException("Server responses with server error")
     }
 
-    throw IllegalStateException("Receive unexpected response code " + code)
+    throw IllegalStateException("Receive unexpected response code $code")
 }
 
 private const val DELIMITER = "[^a-zA-Z'äöü]+"
@@ -49,7 +46,7 @@ fun File.countWord(): MutableMap<String, Int> {
     try {
         scanner = Scanner(this)
         scanner.useDelimiter(DELIMITER)
-        val wordCount: MutableMap<String, Int> = mutableMapOf<String, Int>()
+        val wordCount: MutableMap<String, Int> = mutableMapOf()
         while (scanner.hasNext()) {
             val word: String = scanner.next()
             if (!wordCount.containsKey(word)) {
@@ -57,7 +54,7 @@ fun File.countWord(): MutableMap<String, Int> {
             } else {
                 val currentCount = wordCount.get(word)
                 if (currentCount != null) {
-                    wordCount.put(word, currentCount + 1)
+                    wordCount[word] = currentCount + 1
                 }
             }
         }
