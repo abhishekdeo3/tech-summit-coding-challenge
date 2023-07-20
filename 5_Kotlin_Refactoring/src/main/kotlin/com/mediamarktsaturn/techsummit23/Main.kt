@@ -1,3 +1,5 @@
+package com.mediamarktsaturn.techsummit23
+
 import org.apache.hc.core5.http.HttpResponse
 import java.io.*
 import java.util.Scanner
