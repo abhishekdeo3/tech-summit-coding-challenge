@@ -1,5 +1,3 @@
-package com.mediamarktsaturn.techsummit23
-
 import org.apache.hc.core5.http.HttpResponse
 import java.io.*
 import java.util.Scanner
@@ -65,8 +63,6 @@ fun File.countWord(): MutableMap<String, Int> {
     } catch (e: IOException) {
         throw IllegalArgumentException("Unable to read the current file ${this.name}!", e)
     } finally {
-        if (scanner != null) {
-            scanner.close()
-        }
+        scanner?.close()
     }
 }
