@@ -1,5 +1,3 @@
-package com.mms.techsummit;
-
 import java.util.*;
 
 public class Challenge {
